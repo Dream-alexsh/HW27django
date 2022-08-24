@@ -1,28 +1,33 @@
-"""HW27django URL Configuration
-
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/4.1/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
-"""
+from django.conf import settings
+from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path
 
-from ads import views
+from ads.views import service, categories, ads, users
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("", views.index),
-    path("cat/", views.CategoryView.as_view()),
-    path("ads/", views.AdsView.as_view()),
-    path("cat/<int:pk>/", views.CategoryDetailView.as_view()),
-    path("ads/<int:pk>/", views.AdDetailView.as_view())
+    path("", service.index),
+
+    path("cat/", categories.CategoryListView.as_view()),
+    path("cat/create/", categories.CategoryCreateView.as_view()),
+    path("cat/<int:pk>/", categories.CategoryDetailView.as_view()),
+    path('cat/<int:pk>/update/', categories.CategoryUpdateView.as_view()),
+    path('cat/<int:pk>/delete/', categories.CategoryDeleteView.as_view()),
+
+    path("ad/", ads.AdListView.as_view()),
+    path("ad/create/", ads.AdCreateView.as_view()),
+    path('ad/<int:pk>/update/', ads.AdUpdateView.as_view()),
+    path('ad/<int:pk>/', ads.AdDetailView.as_view()),
+    path('ad/<int:pk>/delete/', ads.AdDeleteView.as_view()),
+    path('ad/<int:pk>/upload_image/', ads.AdImageView.as_view()),
+
+    path('user/', users.UserListView.as_view()),
+    path('user/<int:pk>/', users.UserDetailView.as_view()),
+    path("user/create/", users.UserCreateView.as_view()),
+    path('user/<int:pk>/update/', users.UserUpdateView.as_view()),
+    path('user/<int:pk>/delete/', users.UserDeleteView.as_view()),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
