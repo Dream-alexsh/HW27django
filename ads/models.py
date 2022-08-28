@@ -8,8 +8,8 @@ class Location(models.Model):
         verbose_name = 'Локация'
         verbose_name_plural = 'Локации'
 
-    lat = models.FloatField()
-    lng = models.FloatField()
+    lat = models.FloatField(null=True, blank=True)
+    lng = models.FloatField(null=True, blank=True)
 
     def __str__(self):
         return self.name
