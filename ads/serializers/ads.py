@@ -6,9 +6,6 @@ from ads.models import Ad
 class AdSerializer(serializers.ModelSerializer):
     author = serializers.SlugRelatedField(read_only=True, slug_field='username')
 
-    # category = serializers.SlugRelatedField(read_only=True,
-    #                                         slug_field='name')
-
     class Meta:
         model = Ad
         fields = '__all__'
